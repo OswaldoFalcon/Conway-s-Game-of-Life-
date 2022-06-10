@@ -98,7 +98,7 @@ defmodule Conway.TerminalGame do
     |> play(name, steps - 1)
   end
 
-  defp print(grid, name) do
+  def print(grid, name) do
     IO.puts(String.duplicate("\n", 100))
     IO.puts("#{name}\n")
 
@@ -116,6 +116,16 @@ defmodule Conway.TerminalGame do
     :timer.sleep(200)
     grid
   end
+
+  def playliveview(grid, name) do
+    grid
+    |> print(name)
+    |> Conway.Grid.next()
+  end
+
+  # def playliveview(:stop) do
+  #  " stop krnal"
+  # end
 end
 
 # patterns = %{

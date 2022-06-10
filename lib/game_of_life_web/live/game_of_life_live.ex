@@ -13,7 +13,12 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         socket,
         message: "",
         board: "",
-        size: 0
+        size: 5,
+        tref: {},
+        grid: %Conway.Grid{
+          data:
+            {{0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 1, 1, 1, 0}, {0, 1, 0, 1, 1}}
+        }
       )
     }
   end
@@ -32,14 +37,80 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
        <%= @message %> <br>
      </h2>
 
-     <button phx-click="randomize">Randomize</button>
+     <div class="board-container">
+        <div class="board">
+          <%= for y <- 0..(Conway.Grid.size(@grid) - 1) do %>
+            <div class="row"> □
+              <%= for  x <- 0..(Conway.Grid.size(@grid)- 1) do %>
+                <div class="cell"> 
+                <%= case Conway.Grid.cell_status(@grid, x, y) do %>
+                  <% 0 -> %> □
+                  <% 1 -> %> ■
+                <% end%>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <button phx-click="go">Go</button>  
+      <button phx-click="stop">Stop</button>  
+      <button phx-click="randomize">Randomize</button>  
 
     """
   end
 
-  def handle_event("randomize", _, socket) do
-    message = "Yu start randomize"
-    Grid.new(socket.assigns.size) |> TerminalGame.play("on liveview test", 10)
+  # def handle_event("randomize", _, socket) do
+  #   message = "Yu start randomize"
+  #   grid = TerminalGame.playliveview(socket.assigns.grid,"on livewviw")
+  #   {
+  #     :noreply,
+  #     assign(
+  #       socket,
+  #       message: message,
+  #       grid: grid,
+  #     )
+  #   }
+  # end
+
+  # def 
+
+  def handle_event("dimension", %{"dimension" => dimension} = data, socket) do
+    IO.inspect(data)
+    message = "Your select: #{dimension} x #{dimension}  "
+    dimension = String.to_integer(dimension)
+    grid = Grid.new(dimension)
+
+    {
+      :noreply,
+      assign(
+        socket,
+        message: message,
+        size: dimension,
+        grid: grid
+      )
+    }
+  end
+
+  def handle_event("go", _params, socket) do
+    message = "amono"
+    {:ok, tref} = :timer.send_interval(1000, self(), :tick)
+
+    {
+      :noreply,
+      assign(
+        socket,
+        message: message,
+        tref: tref
+      )
+    }
+  end
+
+  def handle_event("stop", _params, socket) do
+    message = "quiero parar "
+    :timer.cancel(socket.assigns.tref)
 
     {
       :noreply,
@@ -50,17 +121,33 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     }
   end
 
-  def handle_event("dimension", %{"dimension" => dimension} = data, socket) do
-    IO.inspect(data)
-    message = "Your select: #{dimension} x #{dimension}  "
-    dimension = String.to_integer(dimension)
-    # Grid.new(dimension) |> TerminalGame.play("on liveview test", 10)
+  def handle_event("randomize", _params, socket) do
+    message = "Randomize on  #{socket.assigns.size}  x #{socket.assigns.size}"
+
+    grid = Grid.new(socket.assigns.size)
+
     {
       :noreply,
       assign(
         socket,
         message: message,
-        size: dimension
+        grid: grid
+      )
+    }
+  end
+
+  def handle_info(:tick, %{assigns: %{grid: grid}} = socket) do
+    # spawn(TerminalGame, :play, [])
+    grid = TerminalGame.playliveview(grid, "Displaying with livewView")
+    # message = "#{self()}"
+    message = "If yu want to stop press STOP button"
+    # {:noreply, socket |> assign(:grid, grid)}
+    {
+      :noreply,
+      assign(
+        socket,
+        message: message,
+        grid: grid
       )
     }
   end
