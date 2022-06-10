@@ -5,8 +5,11 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   use Phoenix.LiveView
   alias Conway.Grid
   alias Conway.TerminalGame
+  @topic "calc"
 
   def mount(_params, _session, socket) do
+    GameOfLifeWeb.Endpoint.subscribe(@topic)
+
     {
       :ok,
       assign(
@@ -41,7 +44,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         <div class="board">
           <%= for y <- 0..(Conway.Grid.size(@grid) - 1) do %>
             <div class="row"> □
-              <%= for  x <- 0..(Conway.Grid.size(@grid)- 1) do %>
+              <%= for  x <- 1..(Conway.Grid.size(@grid)- 1) do %>
                 <div class="cell"> 
                 <%= case Conway.Grid.cell_status(@grid, x, y) do %>
                   <% 0 -> %> □
@@ -79,9 +82,11 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
 
   def handle_event("dimension", %{"dimension" => dimension} = data, socket) do
     IO.inspect(data)
+
     message = "Your select: #{dimension} x #{dimension}  "
     dimension = String.to_integer(dimension)
     grid = Grid.new(dimension)
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
 
     {
       :noreply,
@@ -95,7 +100,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   end
 
   def handle_event("go", _params, socket) do
-    message = "amono"
+    message = "amonos"
     {:ok, tref} = :timer.send_interval(1000, self(), :tick)
 
     {
@@ -109,7 +114,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   end
 
   def handle_event("stop", _params, socket) do
-    message = "quiero parar "
+    message = "It's stop, to START again, press the button "
     :timer.cancel(socket.assigns.tref)
 
     {
@@ -125,6 +130,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     message = "Randomize on  #{socket.assigns.size}  x #{socket.assigns.size}"
 
     grid = Grid.new(socket.assigns.size)
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
 
     {
       :noreply,
@@ -142,12 +148,25 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     # message = "#{self()}"
     message = "If yu want to stop press STOP button"
     # {:noreply, socket |> assign(:grid, grid)}
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
+
     {
       :noreply,
       assign(
         socket,
         message: message,
         grid: grid
+      )
+    }
+  end
+
+  def handle_info(%{topic: @topic, payload: payload}, socket) do
+    {
+      :noreply,
+      assign(
+        socket,
+        :grid,
+        payload.grid
       )
     }
   end
