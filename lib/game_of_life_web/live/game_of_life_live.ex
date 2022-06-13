@@ -18,7 +18,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         board: "",
         size: 5,
         tref: {},
-        probability: 0 , 
+        probability: 0,
         grid: %Conway.Grid{
           data:
             {{0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 1, 1, 1, 0}, {0, 1, 0, 1, 1}}
@@ -131,16 +131,16 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     }
   end
 
-   def handle_event("probability",%{"probability" => probability}, socket) do
-     {
-       :noreply,
-       assign(
-         socket,
-         probability: probability
-       )
-     }
-   end
-  
+  def handle_event("probability", %{"probability" => probability}, socket) do
+    {
+      :noreply,
+      assign(
+        socket,
+        probability: probability
+      )
+    }
+  end
+
   def handle_info(:tick, %{assigns: %{grid: grid}} = socket) do
     grid = TerminalGame.playliveview(grid, "Displaying with livewView")
     message = "If yu want to stop press STOP button"
