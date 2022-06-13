@@ -1,0 +1,57 @@
+ <h1> Conway's Game of Life </h1>
+    <div class= "container">
+
+      <div class="grid_size">
+        <div> Grid Dimension: </div> 
+        <form>
+          <label>
+            <input type="radio" name="radio"  phx-click="dimension"  phx-value-dimension="50">
+            <span> 50 x 50 </span>
+          </label>
+          <label>
+            <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="20"/>
+            <span>20 x 20</span>
+          </label>
+          <label>
+            <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="10"/>
+            <span>10 x 10</span>
+          </label>
+          <label>
+            <input type="radio" name="radio" checked="checked" phx-click="dimension"  phx-value-dimension="5" />
+            <span> 5 x 5</span>
+          </label>
+        </form>
+      </div>  
+
+       <p>
+         <%= @message %> <br>
+       </p>
+
+        <div class = "buttons">
+          <button phx-click="go"> Go </button>  
+          <button phx-click="stop"> Stop </button>  
+          <div class="slidecontainer">
+            <button phx-click="randomize"> Randomize </button>        
+            <input type="range" min="0" max="1" step="0.1" value="<%= @probability%>" phx-click="probability" class= "slider" > 
+            Propability :  <%= @probability %>
+          </div>  
+        </div>
+
+       <div class="board-container">
+          <div class="board">
+            <%= for y <- 0..(Conway.Grid.size(@grid) - 1) do %>
+              <div class="row"> 
+                <%= for  x <- 0..(Conway.Grid.size(@grid)- 1) do %>
+                  <div class="cell"> 
+                  <%= case Conway.Grid.cell_status(@grid, x, y) do %>
+                    <% 0 -> %> <div class = "dead"> </div>
+                    <% 1 -> %> <div class = "alive" > </div>
+                  <% end%>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+       
+    </div >

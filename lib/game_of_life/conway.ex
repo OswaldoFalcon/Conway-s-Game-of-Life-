@@ -37,6 +37,19 @@ defmodule Conway.Grid do
     %Conway.Grid{data: list_to_data(data)}
   end
 
+  def new(size, prob) when is_integer(size) and size > 0 do
+    %Conway.Grid{
+      data:
+        new_data(size, fn _, _ ->
+          if :rand.uniform(10) - 1 < prob do
+            1
+          else
+            0
+          end
+        end)
+    }
+  end
+
   def size(%Conway.Grid{data: data}), do: tuple_size(data)
 
   def cell_status(grid, x, y) do
