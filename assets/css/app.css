@@ -5,6 +5,11 @@ body{
   background-color: rgb(87, 74, 117);
 
 }
+h1 {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  color: white;
+}
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

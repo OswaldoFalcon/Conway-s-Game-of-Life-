@@ -29,6 +29,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
 
   def render(assigns) do
     ~L"""
+    <h1> Conway's Game of Life </h1>
     <div class= "container">
       <div class = "grid_size" >
         <div> Grid Dimension: </div> 
