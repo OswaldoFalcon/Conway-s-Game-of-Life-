@@ -15,12 +15,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 This is a representation of Conway's Game of life, you have 3 buttons. Start, Stop, and Randomize the grid.
 The grid representation broadcast to all the users.
 
-## On Develop
-
-- Needs to Fix CSS
-- Add probaility game slider
-
 
 ## Evidence
-![image](https://user-images.githubusercontent.com/77717622/173159032-1a73b15f-cc30-46ff-8ddf-e34ea0d7b9e4.png)
+![image](https://user-images.githubusercontent.com/77717622/173433212-cd6f8d59-6802-4013-b764-c7ee0183f96e.png)![evidence](https://user-images.githubusercontent.com/77717622/173437585-4888f85f-5e39-4fa3-8344-6c905cc7a3ee.gif)
 
