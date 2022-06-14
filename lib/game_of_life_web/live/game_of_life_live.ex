@@ -20,6 +20,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         size: 5,
         tref: {},
         probability: "0.2",
+        on_process: false,
         grid: %Conway.Grid{
           data:
             {{0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 1, 1, 1, 0}, {0, 1, 0, 1, 1}}
@@ -58,7 +59,8 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
       assign(
         socket,
         message: message,
-        tref: tref
+        tref: tref,
+        on_process: true
       )
     }
   end
@@ -71,7 +73,8 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
       :noreply,
       assign(
         socket,
-        message: message
+        message: message,
+        on_process: false
       )
     }
   end

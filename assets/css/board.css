@@ -4,6 +4,7 @@
   height: 100%;
   width: 100%;
   align-items: center;
+  justify-content: center;
 }
 .board-container {
   display: flex;
@@ -36,7 +37,14 @@
   width: 20px;
   height: 20px ;
 }
-
+.options{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
 .grid_size{
   display: flex;
   width: 35%;
@@ -45,10 +53,13 @@
   color: #FFFFFF;
   align-items: center;
   justify-content: space-around;
+  height: 100%;
+  
 }
 
-.grid_size .sizes {
+#sizes {
   display: flex;
+  flex-direction: column;
 }
 
 p{
@@ -61,18 +72,20 @@ p{
   justify-content: center;
 }
 
-.container .buttons {
+.buttons {
   display: flex;
-  justify-content: space-around;
-  width:  100%;
-  padding-top: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:  35%;
+  height: 100%;
 }
 
 
 /* CSS */
 button {
   background: #5E5DF0;
-  border-radius: 30%;
+
   box-shadow: #5E5DF0 0 10px 20px -10px;
   box-sizing: border-box;
   color: #FFFFFF;
@@ -83,32 +96,58 @@ button {
   line-height: 24px;
   opacity: 1;
   outline: 0 solid transparent;
-  padding: 10px 18px;
+ 
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   width: fit-content;
-  height: 50%;
+  height: 100%;
   word-break: break-word;
   border: 0;
+  width: 45%;
+  height: 100%;
+ 
+ 
+}
+
+#control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 65%;
+  height: 50%;
+  margin-bottom: 10px;
 }
 
 .slidecontainer{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   color: #FFFFFF;
   font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+  width: 65%;
+  height: 45%;
+  font-size: 100%;
+  
 }
 
 .slider {
   -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
+  width: 95%;
+  height: 50%;
   border-radius: 5px;  
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
-  transition: opacity .2s;
+  transition: opacity .2s;  
+}
+
+#slidecontainer_slide{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
 }
