@@ -40,6 +40,7 @@
 .options{
   display: flex;
   flex-direction: row;
+  min-width: 940px;
   width: 80%;
   height: 100px;
   justify-content: center;

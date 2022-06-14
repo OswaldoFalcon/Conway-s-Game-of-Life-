@@ -61,7 +61,9 @@
             > Randomize </button>     
 
               <div id= "slidecontainer_slide">
-                <input type="range" min="0" max="1" step="0.1" value="<%= @probability%>" phx-click="probability" class= "slider" > 
+                <input type="range" min="0" max="1" step="0.1" value = <%= @probability%> phx-click="probability" class= "slider"   
+                  <%= if @on_process == true do %> disabled <% end %> 
+                > 
                 Probability :  <%= @probability %>
               </div>
           </div>  
