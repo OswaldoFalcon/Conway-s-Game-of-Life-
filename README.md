@@ -17,5 +17,5 @@ The grid representation broadcast to all the users.
 
 
 ## Evidence
-![image](https://user-images.githubusercontent.com/77717622/173433212-cd6f8d59-6802-4013-b764-c7ee0183f96e.png)![evidence](https://user-images.githubusercontent.com/77717622/173437585-4888f85f-5e39-4fa3-8344-6c905cc7a3ee.gif)
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/77717622/173486167-4f1f0af7-3894-4f48-894a-443ed8ff36d5.png">
 
