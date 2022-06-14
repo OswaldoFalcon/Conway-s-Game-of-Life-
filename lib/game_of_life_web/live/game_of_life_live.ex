@@ -37,7 +37,12 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     message = "Your select: #{dimension} x #{dimension}  "
     dimension = String.to_integer(dimension)
     grid = Grid.new(dimension)
-    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
+
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      grid: grid,
+      size: dimension,
+      message: message
+    })
 
     {
       :noreply,
@@ -54,6 +59,12 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     message = "Let's go!"
     {:ok, tref} = :timer.send_interval(1000, self(), :tick)
 
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      on_process: true,
+      message: message,
+      tref: tref
+    })
+
     {
       :noreply,
       assign(
@@ -69,6 +80,11 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     message = "It's stop, to START again, press the button GO "
     :timer.cancel(socket.assigns.tref)
 
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      on_process: false,
+      message: message
+    })
+
     {
       :noreply,
       assign(
@@ -83,7 +99,11 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     message = "Randomize on  #{socket.assigns.size}  x #{socket.assigns.size} Grid"
     probability = convert_type(socket.assigns.probability) * 10
     grid = Grid.new(socket.assigns.size, probability)
-    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
+
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      grid: grid,
+      message: message
+    })
 
     {
       :noreply,
@@ -96,6 +116,10 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   end
 
   def handle_event("probability", %{"value" => probability}, socket) do
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      probability: probability
+    })
+
     {
       :noreply,
       assign(
@@ -108,7 +132,11 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   def handle_info(:tick, %{assigns: %{grid: grid}} = socket) do
     grid = TerminalGame.playliveview(grid, "Displaying with livewView")
     message = "If you want to stop, press STOP button"
-    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
+
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
+      grid: grid,
+      message: message
+    })
 
     {
       :noreply,
@@ -120,13 +148,12 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
     }
   end
 
-  def handle_info(%{topic: @topic, payload: payload}, socket) do
+  def handle_info(info, socket) do
     {
       :noreply,
       assign(
         socket,
-        :grid,
-        payload.grid
+        info.payload
       )
     }
   end
