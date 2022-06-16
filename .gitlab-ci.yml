@@ -1,0 +1,66 @@
+
+image: 'bunsan/ubuntu-elixir:1.12.2-otp24-node16'
+
+services:
+  - postgres:9.6
+
+variables:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+before_script:
+  - mix local.hex --force
+  - mix deps.clean --all
+  - mix deps.get --only test
+  - mix deps.get
+
+stages:
+  - build
+  - quality
+  - release
+
+compile:
+  stage: build
+  script:
+    - mix compile --warnings-as-errors
+  cache:
+    key: 'compile'
+    paths:
+      - '_build'
+      - 'deps'
+
+static_analysis:
+  stage: quality
+  script:
+    - mix credo -a
+    - mix format --check-formatted
+  cache:
+    key: 'compile'
+    paths:
+      - '_build'
+      - 'deps'
+
+test:
+  stage: quality
+  variables:
+    MIX_ENV: 'test'
+  script:
+    - mix compile
+    - mix coveralls
+  cache:
+    key: 'compile'
+    paths:
+      - '_build'
+      - 'deps'
+
+build_release:
+  stage: release
+  when: manual
+  only:
+    - master
+    - tags
+  variables:
+    MIX_ENV: 'prod'
+  script:
+    - mix release
+    # shoould move the release to some storage (e.g. an FTP server or AWS S3)
