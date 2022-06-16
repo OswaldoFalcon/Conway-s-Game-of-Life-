@@ -7,8 +7,6 @@
 # General application configuration
 import Config
 
-config :game_of_life,
-  ecto_repos: [GameOfLife.Repo]
 
 # Configures the endpoint
 config :game_of_life, GameOfLifeWeb.Endpoint,
