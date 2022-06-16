@@ -21,10 +21,15 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         tref: {},
         probability: "0.2",
         on_process: false,
+        row: 0,
+        cell_state: "background-color:transparent;",
+        current_row: 0,
+        current_column: 0,
         grid: %Conway.Grid{
           data:
             {{0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 1, 1, 1, 0}, {0, 1, 0, 1, 1}}
-        }
+        },
+        edit_grid: %Conway.Grid{data: {}}
       )
     }
   end
@@ -71,7 +76,8 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         socket,
         message: message,
         tref: tref,
-        on_process: true
+        on_process: true,
+        cell_state: "dead"
       )
     }
   end
@@ -125,6 +131,27 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
       assign(
         socket,
         probability: probability
+      )
+    }
+  end
+
+  def handle_event(
+        "change_state",
+        %{"row" => row, "column" => column, "state" => state} = data,
+        socket
+      ) do
+    IO.inspect(data)
+    row = String.to_integer(row)
+    column = String.to_integer(column)
+    state = String.to_integer(state)
+    grid = Conway.Grid.change_state(socket.assigns.grid, row, column, state)
+    GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{grid: grid})
+
+    {
+      :noreply,
+      assign(
+        socket,
+        grid: grid
       )
     }
   end

@@ -1,5 +1,5 @@
  <h1> Conway's Game of Life </h1>
-   <!-- ------------------------------------------------------------------------------ -->
+   <!-- ------------------------------radio buttons------------------------------------------------ -->
     <div class= "container">
       <div class="options"> 
         <div class="grid_size">
@@ -43,7 +43,7 @@
             </label>
           </form>
         </div> 
-  <!-- ------------------------------------------------------------------------------ -->
+  <!-- ---------------------------------control buttons-------------------------------------------- -->
         <div class = "buttons">
           <div id = "control">
             <button phx-click="go"
@@ -61,7 +61,7 @@
             > Randomize </button>     
 
               <div id= "slidecontainer_slide">
-                <input type="range" min="0" max="1" step="0.1" value = <%= @probability%> phx-click="probability" class= "slider"   
+                <input type="range" min="0" max="1" step="0.1" value = <%= @probability%> phx-click="probability" class = "slider"   
                   <%= if @on_process == true do %> disabled <% end %> 
                 > 
                 Probability :  <%= @probability %>
@@ -70,21 +70,36 @@
         </div>
       </div>
      
-  <!-- ------------------------------------------------------------------------------ -->
+  <!-- ----------------------------------message------------------------------------------- -->
        <p>
          <%= @message %> <br>
        </p>
-  <!-- ------------------------------------------------------------------------------ -->
+  <!-- --------------------------------board---------------------------------------------- -->
        <div class="board-container">
           <div class="board">
             <%= for y <- 0..(Conway.Grid.size(@grid) - 1) do %>
-              <div class="row"> 
+              <div class="row">   
                 <%= for  x <- 0..(Conway.Grid.size(@grid)- 1) do %>
-                  <div class="cell"> 
+                  <div class="cell">  
                   <%= case Conway.Grid.cell_status(@grid, x, y) do %>
-                    <% 0 -> %> <div class = "dead"> </div>
-                    <% 1 -> %> <div class = "alive" > </div>
-                  <% end%>
+                    <% 0 -> %> <div class = "dead"
+                     id= "<%= y %>- <%= x %>"  
+                     phx-click="change_state" phx-value-row="<%= y %>" 
+                     phx-value-column="<%= x %>" 
+                     phx-value-state="1"
+                     >  <%= y %> , <%= x %> 
+
+                    </div> 
+                    <% 1 -> %> <div class = "alive" 
+                        id= "<%= x %>-<%= y %>" 
+                        phx-click="change_state" 
+                        phx-value-row="<%= y %>" 
+                        phx-value-column="<%= x %>" 
+                        phx-value-state="0"
+                        > 
+                      <%= y %> , <%= x %>  
+                    </div>
+                  <% end%>  
                   </div>
                 <% end %>
               </div>

@@ -1,7 +1,10 @@
-# Works on Elixir 1.0.x
-# Usage: just paste to `iex` shell, or run `elixir conway.ex`
-
 defmodule Sum do
+  @moduledoc """
+    Works on Elixir 1.0.x
+    This module is based on Sasa Juric Algorithm
+    With a little changes to function in Phoenix LiveView
+    This module do a Sum
+  """
   defstruct value: 0
 
   def value(%Sum{value: value}), do: value
@@ -25,6 +28,12 @@ defmodule Sum do
 end
 
 defmodule Conway.Grid do
+  @moduledoc """
+    Works on Elixir 1.0.x
+    This module is based on Sasa Juric Algorithm
+    With a little changes to function in Phoenix LiveView
+    this module Creates, Updates, the grid.
+  """
   defstruct data: nil
 
   def new(size) when is_integer(size) and size > 0 do
@@ -86,6 +95,12 @@ defmodule Conway.Grid do
     end
   end
 
+  def change_state(grid, row, column, state) do
+    new_row = put_elem(elem(grid.data, row), column, state)
+    new_grid = put_elem(grid.data, row, new_row)
+    %Conway.Grid{grid | data: new_grid}
+  end
+
   defp alive_neighbours(grid, cell_x, cell_y) do
     for x <- (cell_x - 1)..(cell_x + 1),
         y <- (cell_y - 1)..(cell_y + 1),
@@ -101,6 +116,12 @@ defmodule Conway.Grid do
 end
 
 defmodule Conway.TerminalGame do
+  @moduledoc """
+    Works on Elixir 1.0.x
+    This module is based on Sasa Juric Algorithm
+    With a little changes to function in Phoenix LiveView
+    This module  Prints the
+  """
   # Concurrent until button stops the function
   def play(_grid, _name, 0), do: :ok
 
@@ -135,28 +156,4 @@ defmodule Conway.TerminalGame do
     |> print(name)
     |> Conway.Grid.next()
   end
-
-  # def playliveview(:stop) do
-  #  " stop krnal"
-  # end
 end
-
-# patterns = %{
-#  "waldo": {60, 15}
-# }
-
-:random.seed(:erlang.now())
-
-# for {name, {steps, data}} <- patterns do
-#   data
-#   |> Conway.Grid.new(15)
-#   |> Conway.TerminalGame.play(name, steps)
-# end 
-
-# size = 15
-# steps = 5
-# Conway.Grid.new(size) |> Conway.TerminalGame.play("#{size} x #{size} ", steps)
-# grid =Conway.Grid.new(size)
-# pid = spawn(Conway.TerminalGame, :play, [grid,size,steps]) 
-# Conway.TerminalGame.play("#{size} x #{size} ", steps)
-# Process.exit(pid, :kill)
