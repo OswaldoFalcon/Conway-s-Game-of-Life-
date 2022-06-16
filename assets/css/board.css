@@ -154,3 +154,7 @@ button {
   align-items: center;
   width: 45%;
 }
+
+#disabled {
+  background: #a494bb;
+}
