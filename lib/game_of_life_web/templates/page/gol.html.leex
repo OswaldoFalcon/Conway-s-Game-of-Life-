@@ -3,16 +3,16 @@
     <div class= "container">
       <div class="options"> 
         <div class="grid_size">
-          <div> Grid Dimension: </div> 
+          <div <%= if @on_process == true do %> class="text_disabled" <% end %> > Grid Dimension: </div> 
           <form id="sizes">
             <label>
               <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="50"
                 <%= case @on_process do %>
-                  <% true -> %> disabled
-                  <% false -> %>  <%= if @size == 50 do %> checked <% end %>
+                  <% true -> %> disabled 
+                  <% false -> %>  <%= if @size == 50 do %> checked  <% end %>
                 <% end %> 
               />
-              <span> 50 x 50 </span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %>> 50 x 50 </span>
             </label>
             <label>
               <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="20"
@@ -21,7 +21,8 @@
                   <% false -> %>  <%= if @size == 20 do %> checked <% end %>
                 <% end %> 
               />
-              <span>20 x 20</span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %>
+              class="text_enabled"> 20 x 20</span>
             </label>
             <label>
               <input type="radio" name="radio"phx-click="dimension"  phx-value-dimension="10"
@@ -30,7 +31,7 @@
                 <% false -> %>  <%= if @size == 10 do %> checked <% end %>
               <% end %> 
               />
-              <span>10 x 10</span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> >10 x 10</span>
             </label>
             <label>
               <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="5" 
@@ -39,7 +40,7 @@
                  <% false -> %>  <%= if @size == 5 do %> checked <% end %>
                 <% end %>   
               />
-              <span> 5 x 5</span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> > 5 x 5</span>
             </label>
           </form>
         </div> 
@@ -47,24 +48,27 @@
         <div class = "buttons">
           <div id = "control">
             <button phx-click="go"
-              <%= if @on_process == true do %>   <% end %> 
+              <%= if @on_process == true do %>  disabled class = "button_disabled"  <% end %> 
+              class = "button_enable"
             > Go </button>
 
             <button phx-click="stop"
-              <%= if @on_process == false do %> disabled <% end %> 
+              <%= if @on_process == false do %> disabled  class = "button_disabled"<% end %> 
+              class = "button_enable"
             > Stop </button> 
           </div>
 
           <div class="slidecontainer">
             <button phx-click="randomize"
-              <%= if @on_process == true do %> disabled <% end %> 
+              <%= if @on_process == true do %> disabled class = "button_disabled" <% end %> 
+              class = "button_enable"
             > Randomize </button>     
 
               <div id= "slidecontainer_slide">
                 <input type="range" min="0" max="1" step="0.1" value = <%= @probability%> phx-click="probability" class = "slider"   
-                  <%= if @on_process == true do %> disabled  id= "disabled"<% end %> 
+                  <%= if @on_process == true do %> disabled id="slider_disabled"<% end %> 
                 > 
-                Probability :  <%= @probability %>
+                <div  <%= if @on_process == true do %> class="text_disabled" <% end %> >Probability :  <%= @probability %> </div>
               </div>
           </div>  
         </div>
