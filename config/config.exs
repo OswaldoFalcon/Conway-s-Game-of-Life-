@@ -7,7 +7,6 @@
 # General application configuration
 import Config
 
-
 # Configures the endpoint
 config :game_of_life, GameOfLifeWeb.Endpoint,
   url: [host: "localhost"],
