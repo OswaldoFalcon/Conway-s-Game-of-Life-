@@ -36,9 +36,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
 
   def render(assigns), do: PageView.render("gol.html", assigns)
 
-  def handle_event("dimension", %{"dimension" => dimension} = data, socket) do
-    IO.inspect(data)
-
+  def handle_event("dimension", %{"dimension" => dimension}, socket) do
     message = "Your select: #{dimension} x #{dimension}  "
     dimension = String.to_integer(dimension)
     grid = Grid.new(dimension)
@@ -137,10 +135,9 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
 
   def handle_event(
         "change_state",
-        %{"row" => row, "column" => column, "state" => state} = data,
+        %{"row" => row, "column" => column, "state" => state},
         socket
       ) do
-    IO.inspect(data)
     row = String.to_integer(row)
     column = String.to_integer(column)
     state = String.to_integer(state)
