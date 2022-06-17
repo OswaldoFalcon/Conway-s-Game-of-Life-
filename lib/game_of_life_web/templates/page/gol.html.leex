@@ -6,41 +6,41 @@
           <div <%= if @on_process == true do %> class="text_disabled" <% end %> > Grid Dimension: </div> 
           <form id="sizes">
             <label>
-              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="50"
+              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="100"
                 <%= case @on_process do %>
                   <% true -> %> disabled 
-                  <% false -> %>  <%= if @size == 50 do %> checked  <% end %>
+                  <% false -> %>  <%= if @size == 100 do %> checked  <% end %>
                 <% end %> 
               />
-              <span  <%= if @on_process == true do %> class="text_disabled" <% end %>> 50 x 50 </span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %>> 100 x 100 </span>
             </label>
             <label>
-              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="20"
+              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="50"
                 <%= case @on_process do %>
                   <% true -> %> disabled
-                  <% false -> %>  <%= if @size == 20 do %> checked <% end %>
+                  <% false -> %>  <%= if @size == 50 do %> checked <% end %>
                 <% end %> 
               />
               <span  <%= if @on_process == true do %> class="text_disabled" <% end %>
-              class="text_enabled"> 20 x 20</span>
+              class="text_enabled"> 50 x 50</span>
             </label>
             <label>
-              <input type="radio" name="radio"phx-click="dimension"  phx-value-dimension="10"
+              <input type="radio" name="radio"phx-click="dimension"  phx-value-dimension="20"
               <%= case @on_process do %>
                 <% true -> %> disabled
-                <% false -> %>  <%= if @size == 10 do %> checked <% end %>
+                <% false -> %>  <%= if @size == 20 do %> checked <% end %>
               <% end %> 
               />
-              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> >10 x 10</span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> >20 x 20</span>
             </label>
             <label>
-              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="5" 
+              <input type="radio" name="radio" phx-click="dimension"  phx-value-dimension="10" 
                 <%= case @on_process do %>
                  <% true -> %> disabled
-                 <% false -> %>  <%= if @size == 5 do %> checked <% end %>
+                 <% false -> %>  <%= if @size == 10 do %> checked <% end %>
                 <% end %>   
               />
-              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> > 5 x 5</span>
+              <span  <%= if @on_process == true do %> class="text_disabled" <% end %> > 10 x 10</span>
             </label>
           </form>
         </div> 

@@ -151,9 +151,10 @@ defmodule Conway.TerminalGame do
     grid
   end
 
-  def playliveview(grid, name) do
+  def playliveview(grid) do
+    Process.list() |> Enum.each(&:erlang.garbage_collect/1)
+
     grid
-    |> print(name)
     |> Conway.Grid.next()
   end
 end

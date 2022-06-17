@@ -17,7 +17,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         socket,
         message: "",
         board: "",
-        size: 5,
+        size: 10,
         tref: {},
         probability: "0.2",
         on_process: false,
@@ -27,9 +27,12 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
         current_column: 0,
         grid: %Conway.Grid{
           data:
-            {{0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 1, 1, 1, 0}, {0, 1, 0, 1, 1}}
-        },
-        edit_grid: %Conway.Grid{data: {}}
+            {{1, 1, 0, 0, 1, 0, 0, 1, 1, 0}, {1, 1, 1, 1, 1, 0, 0, 1, 1, 1},
+             {0, 0, 1, 0, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+             {0, 1, 0, 1, 0, 1, 1, 1, 0, 1}, {0, 0, 1, 0, 0, 1, 1, 0, 1, 1},
+             {0, 0, 1, 1, 1, 0, 1, 1, 0, 1}, {0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+             {0, 1, 1, 1, 0, 1, 0, 1, 0, 1}, {0, 0, 1, 1, 0, 0, 1, 0, 1, 1}}
+        }
       )
     }
   end
@@ -60,7 +63,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
 
   def handle_event("go", _params, socket) do
     message = "Let's go!"
-    {:ok, tref} = :timer.send_interval(1000, self(), :tick)
+    {:ok, tref} = :timer.send_interval(100, self(), :tick)
 
     GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
       on_process: true,
@@ -154,7 +157,7 @@ defmodule GameOfLifeWeb.GameOfLifeLive do
   end
 
   def handle_info(:tick, %{assigns: %{grid: grid}} = socket) do
-    grid = TerminalGame.playliveview(grid, "Displaying with livewView")
+    grid = TerminalGame.playliveview(grid)
     message = "If you want to stop, press STOP button"
 
     GameOfLifeWeb.Endpoint.broadcast_from(self(), @topic, "update_grid", %{
